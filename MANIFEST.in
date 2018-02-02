@@ -1,0 +1,2 @@
+recursive-include src *.h *.c
+recursive-include mlpg_c *.pyx
