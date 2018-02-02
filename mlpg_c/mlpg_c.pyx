@@ -130,7 +130,7 @@ def calc_cholsolve(np.ndarray[double, ndim=2, mode="c"] cholbandwuw not None, np
 
 def mlpg_solve(np.ndarray[double, ndim=2, mode="c"] sd_mat not None, np.ndarray[double, ndim=1, mode="c"] prec not None, np.ndarray[double, ndim=1, mode="c"] coeff not None):
 	assert sd_mat.ndim == 2, "sd_mat.ndim = %d != 2" % sd_mat.ndim
-	assert sd_mat.shape[1]%2 != 0, "sd_mat.shape[1]%%2 = %d != 0" % (sd_mat.shape[1]%2)
+	assert sd_mat.shape[1]%2 == 0, "sd_mat.shape[1]%%2 = %d != 0" % (sd_mat.shape[1]%2)
 	assert prec.ndim == 1, "prec.ndim = %d != 1" % prec.ndim
 	assert sd_mat.shape[1] == len(prec), "sd_mat.shape[1] = %d != %d = len(prec)" % (sd_mat.shape[1], len(prec))
 	assert coeff.ndim == 1, "coeff.ndim = %d != 1" % coeff.ndim
