@@ -9,7 +9,7 @@ void c_calc_wum(const double* w, const double* u, const double* const * m, int T
 	for (i = 0; i < T; i++)
 		for (j = 0; j < dim; j++) {
 			jdiff = j + dim;
-			wum[i][j] = u[j] * m[i][j] + w[1] * u[jdiff] * m[i][j];
+			wum[i][j] = u[j] * m[i][j] + w[1] * u[jdiff] * m[i][jdiff];
 			if ((i+1) < T)
 				wum[i][j] += w[0] * u[jdiff] * m[i+1][jdiff];
 			if ((i-1) >= 0)
