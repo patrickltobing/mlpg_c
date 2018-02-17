@@ -105,17 +105,17 @@ def calc_bandwuw(np.ndarray[double, ndim=1, mode="c"] coeff not None, np.ndarray
 
 	return np.array(bandwuw_data, dtype=np.float64)
 
-def calc_bandwuwseq(np.ndarray[double, ndim=1, mode="c"] coeff not None, np.ndarray[double, ndim=2, mode="c"] prec not None, int T):
+def calc_bandwuwseq(np.ndarray[double, ndim=1, mode="c"] coeff not None, np.ndarray[double, ndim=2, mode="c"] prec not None):
 	cdef int dim, n_diag
 
-	dim, n_diag = int(prec.shape[1]/2), len(coeff)
+	T, dim, n_diag = prec.shape[0], int(prec.shape[1]/2), len(coeff)
 
 	cdef double[::1] coeff_data = coeff
 	cdef double[:, ::1] prec_data = prec
 	cdef double[:, ::1] bandwuw_data = np.zeros((n_diag, T*dim), dtype=np.dtype('float64'))
 
 	cdef np.intp_t[:] tmp1 = np.zeros(n_diag, dtype=np.intp)
-	cdef np.intp_t[:] tmp2 = np.zeros(dim, dtype=np.intp)
+	cdef np.intp_t[:] tmp2 = np.zeros(T, dtype=np.intp)
 	cdef np.intp_t[:] tmp3 = np.zeros(n_diag, dtype=np.intp)
 
 	cdef double* cpp_coeff = <double*> (<void*> &tmp1[0])
@@ -231,7 +231,7 @@ def mlpg_solve_seq(np.ndarray[double, ndim=2, mode="c"] sd_mat not None, np.ndar
 	coeff = np.array(coeff, dtype=np.float64)
 
 	wum = calc_wumseq(coeff, prec, sd_mat)
-	bandwuw = calc_bandwuwseq(coeff, prec, T)
+	bandwuw = calc_bandwuwseq(coeff, prec)
 	cholbandwuw = calc_cholband(bandwuw, T)
 	x = calc_cholsolve(cholbandwuw, wum)
 
