@@ -29,6 +29,6 @@ Variable desc.
 To-do:
 ----
 
-- time-varying diagonal precision matrices
+- demo
 - full precision matrix
 - docs

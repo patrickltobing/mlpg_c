@@ -19,6 +19,22 @@ void c_calc_wum(const double* w, const double* u, const double* const * m, int T
 	return;
 }
 
+void c_calc_wumseq(const double* w, const double* const * u, const double* const * m, int T, int dim, double** wum) {
+	int i, j, jdiff;
+
+	for (i = 0; i < T; i++)
+		for (j = 0; j < dim; j++) {
+			jdiff = j + dim;
+			wum[i][j] = u[i][j] * m[i][j] + w[1] * u[i][jdiff] * m[i][jdiff];
+			if ((i+1) < T)
+				wum[i][j] += w[0] * u[i+1][jdiff] * m[i+1][jdiff];
+			if ((i-1) >= 0)
+				wum[i][j] += w[2] * u[i-1][jdiff] * m[i-1][jdiff];
+		}
+
+	return;
+}
+
 void c_calc_bandwuw(const double* w, const double* u, int T, int dim, int n_coeff, double** bandwuw) {
 	int i, j, k, jdiff, idim, jidim, n_diag = n_coeff;
 
@@ -37,6 +53,30 @@ void c_calc_bandwuw(const double* w, const double* u, int T, int dim, int n_coef
 						bandwuw[k][jidim] = u[jdiff] * (w[0] * w[1] + w[1] * w[2]);
 					else if (k == 2)
 						bandwuw[k][jidim] = w[0] * u[jdiff] * w[2];
+				}
+			}
+
+	return;
+}
+
+void c_calc_bandwuwseq(const double* w, const double*  const * u, int T, int dim, int n_coeff, double** bandwuw) {
+	int i, j, k, jdiff, idim, jidim, n_diag = n_coeff;
+
+	for (i = 0; i < T; i++)
+		for (j = 0, idim = i*dim; j < dim; j++)
+			for (k = 0, jidim = j+idim, bandwuw[0][jidim]=u[i][j]; k < n_diag; k++) {
+				jdiff = j + dim;
+				if (k == 0) {
+					bandwuw[k][jidim] += w[1] * u[i][jdiff] * w[1];
+					if ((i+1) < T)
+						bandwuw[k][jidim] += w[0] * u[i+1][jdiff] * w[0];
+					if ((i-1) >= 0)
+						bandwuw[k][jidim] += w[2] * u[i-1][jdiff] * w[2];
+				} else if ((i+k) < T) {
+					if (k == 1)
+						bandwuw[k][jidim] = w[0] * u[i+1][jdiff] * w[1] + w[1] * u[i][jdiff] * w[2];
+					else if (k == 2)
+						bandwuw[k][jidim] = w[0] * u[i+1][jdiff] * w[2];
 				}
 			}
 
