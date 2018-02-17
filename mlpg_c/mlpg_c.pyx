@@ -46,7 +46,7 @@ def calc_wum(np.ndarray[double, ndim=1, mode="c"] coeff not None, np.ndarray[dou
 def calc_wumseq(np.ndarray[double, ndim=1, mode="c"] coeff not None, np.ndarray[double, ndim=2, mode="c"] prec not None, np.ndarray[double, ndim=2, mode="c"] sd_mat not None):
 	cdef int T, dim, n_diag
 
-	T, dim, n_diag = sd_mat.shape[0], int(len(prec)/2), len(coeff)
+	T, dim, n_diag = sd_mat.shape[0], int(prec.shape[1]/2), len(coeff)
 
 	cdef double[::1] coeff_data = coeff
 	cdef double[:, ::1] prec_data = prec
@@ -108,7 +108,7 @@ def calc_bandwuw(np.ndarray[double, ndim=1, mode="c"] coeff not None, np.ndarray
 def calc_bandwuwseq(np.ndarray[double, ndim=1, mode="c"] coeff not None, np.ndarray[double, ndim=2, mode="c"] prec not None, int T):
 	cdef int dim, n_diag
 
-	dim, n_diag = int(len(prec)/2), len(coeff)
+	dim, n_diag = int(prec.shape[1]/2), len(coeff)
 
 	cdef double[::1] coeff_data = coeff
 	cdef double[:, ::1] prec_data = prec
