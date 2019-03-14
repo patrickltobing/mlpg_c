@@ -1,7 +1,7 @@
 mlpg_c
 ====
 
-Maximum Likelihood Parameter Generation (MLPG) implementation in C for Python
+Maximum Likelihood Parameter Generation (MLPG) [1,2] implementation in C for Python
 
 Install
 ----
@@ -47,6 +47,13 @@ Variable desc.
 To-do:
 ----
 
-- demo
 - full precision matrix
 - docs
+
+References:
+----
+[1] K. Tokuda, T. Kobayashi, S. Imai, Speech parameter generation from HMM using dynamic features, in Proc. ICASSP, Detroit, USA, May 1995,
+pp. 660––663.
+
+[2] T. Toda, A. W. Black, K. Tokuda, Voice conversion based on maximum-likelihood estimation of spectral parameter trajectory, IEEE Trans.
+Audio Speech Lang. Process., vol. 15, no. 8, 2222-–2235, 2007.
